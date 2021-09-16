@@ -4,7 +4,8 @@
   "description": "This will be a virtual game of Battleship built using test driven development for The Odin Project curriculum. I will utilize Jest and WebPack as some tools to get this project off and running.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack build --config webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
