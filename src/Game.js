@@ -1,4 +1,4 @@
-const Ship = (length) => {
+export const Ship = (length) => {
   const _length = length;
   const _createStructure = (length) => {
     let structure = [];
@@ -17,9 +17,7 @@ const Ship = (length) => {
       //code
     },
     getLength: function () {
-      return this._length;
+      return _length;
     },
   };
 };
-
-export default { Ship };
