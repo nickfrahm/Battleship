@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "./node_modules/.bin/jest ./src",
-    "build": "webpack build --config webpack.config.js --watch"
+    "build": "webpack build --config webpack.config.js"
   },
   "repository": {
     "type": "git",

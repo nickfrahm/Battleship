@@ -11,10 +11,14 @@ export const Ship = (length) => {
 
   return {
     isSunk: function () {
-      //code
+      if (_structure.every((pos) => pos === 'x')) {
+        return true;
+      }
+      return false;
     },
-    hit: function () {
-      //code
+    hit: function (position) {
+      _structure[position] = 'x';
+      return [..._structure];
     },
     getLength: function () {
       return _length;
