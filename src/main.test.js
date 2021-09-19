@@ -1,4 +1,5 @@
 import { Ship } from './Ship.js';
+import { Gameboard } from './Gameboard.js';
 
 describe('Testing the Ship factory function', () => {
   let newShip = Ship(3);
@@ -23,5 +24,28 @@ describe('Testing the Ship factory function', () => {
   test('Testing isSunk function', () => {
     expect(newShip.isSunk()).toBe(true);
     expect(secondShip.isSunk()).toBe(false);
+  });
+});
+
+describe('Testing the gameboard factory', () => {
+  let board1 = Gameboard(10);
+  let ship1 = Ship(4);
+  let expected = [
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', 'x', 'x', 'x', 'x', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+  ];
+
+  test('Test placing a horizontal ship at 3,4 (using array indexes, not column/row)', () => {
+    expect(board1.placeShipHorizontal(ship1, 3, 3)).toEqual(
+      expect.arrayContaining(expected)
+    );
   });
 });
