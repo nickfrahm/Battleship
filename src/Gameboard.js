@@ -12,6 +12,7 @@ export const Gameboard = (length) => {
   };
 
   let _board = _initBoard(length);
+  let _ships = [];
 
   return {
     getGameboard: function () {
@@ -25,6 +26,8 @@ export const Gameboard = (length) => {
           for (let i = 0; i < shipLength; i++) {
             _board[row][col + i] = i.toString();
           }
+          ship.setCoordinates(row, col);
+          _ships.push(ship);
           return this.getGameboard();
         }
         return false;
@@ -33,10 +36,18 @@ export const Gameboard = (length) => {
           for (let i = 0; i < shipLength; i++) {
             _board[row + i][col] = i.toString();
           }
+          ship.setCoordinates(row, col);
+          _ships.push(ship);
           return this.getGameboard();
         }
         return false;
       }
+    },
+    receiveAttack: function (coordArr) {
+      const row = coordArr[0];
+      const col = coordArr[1];
+      _board[row][col] = 'x';
+      return this.getGameboard();
     },
   };
 };

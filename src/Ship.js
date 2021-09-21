@@ -9,6 +9,7 @@ export const Ship = (length) => {
   };
   const _structure = _createStructure(_length);
   let _coordinates = [];
+  let _orientation = '';
 
   return {
     isSunk: function () {
@@ -29,6 +30,12 @@ export const Ship = (length) => {
     },
     setCoordinates: function (row, col) {
       _coordinates = [row, col];
+    },
+    getOrientation: function () {
+      return _orientation;
+    },
+    setOrientation: function (orientation) {
+      _orientation = orientation;
     },
   };
 };
