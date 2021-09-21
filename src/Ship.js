@@ -8,6 +8,7 @@ export const Ship = (length) => {
     return structure;
   };
   const _structure = _createStructure(_length);
+  let _coordinates = [];
 
   return {
     isSunk: function () {
@@ -22,6 +23,12 @@ export const Ship = (length) => {
     },
     getLength: function () {
       return _length;
+    },
+    getCoordinates: function () {
+      return _coordinates;
+    },
+    setCoordinates: function (row, col) {
+      _coordinates = [row, col];
     },
   };
 };

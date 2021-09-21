@@ -14,19 +14,29 @@ export const Gameboard = (length) => {
   let _board = _initBoard(length);
 
   return {
-    getGameboard: function getGameboard() {
+    getGameboard: function () {
       return _board;
     },
-    placeShipHorizontal: function placeShipHorizontal(ship, row, col) {
+    placeShip: function (ship, row, col, orientation) {
       let shipLength = ship.getLength();
       let boardLength = _board[row].length;
-      if (col + shipLength < boardLength) {
-        for (let i = 0; i < shipLength; i++) {
-          _board[row][col + i] = 'x';
+      if (orientation === 'horizontal') {
+        if (col + shipLength < boardLength) {
+          for (let i = 0; i < shipLength; i++) {
+            _board[row][col + i] = i.toString();
+          }
+          return this.getGameboard();
         }
-        return this.getGameboard();
+        return false;
+      } else if (orientation === 'vertical') {
+        if (row + shipLength < boardLength) {
+          for (let i = 0; i < shipLength; i++) {
+            _board[row + i][col] = i.toString();
+          }
+          return this.getGameboard();
+        }
+        return false;
       }
-      return false;
     },
   };
 };
