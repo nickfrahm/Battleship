@@ -16,7 +16,7 @@ export const Gameboard = (length) => {
 
   return {
     getGameboard: function () {
-      return _board;
+      return [..._board];
     },
     placeShip: function (ship, row, col, orientation) {
       let shipLength = ship.getLength();
@@ -25,8 +25,8 @@ export const Gameboard = (length) => {
         if (col + shipLength < boardLength) {
           for (let i = 0; i < shipLength; i++) {
             _board[row][col + i] = i.toString();
+            ship.addCoordinates(row, col + i);
           }
-          ship.setCoordinates(row, col);
           _ships.push(ship);
           return this.getGameboard();
         }
@@ -35,8 +35,8 @@ export const Gameboard = (length) => {
         if (row + shipLength < boardLength) {
           for (let i = 0; i < shipLength; i++) {
             _board[row + i][col] = i.toString();
+            ship.addCoordinates(row + i, col);
           }
-          ship.setCoordinates(row, col);
           _ships.push(ship);
           return this.getGameboard();
         }
@@ -46,8 +46,24 @@ export const Gameboard = (length) => {
     receiveAttack: function (coordArr) {
       const row = coordArr[0];
       const col = coordArr[1];
-      _board[row][col] = 'x';
+
+      const attackedShip = _ships.find((ship) => ship.containsCoords(coordArr));
+
+      if (attackedShip) {
+        attackedShip.hit(Number(_board[row][col]));
+        _board[row][col] = 'x';
+      }
       return this.getGameboard();
+    },
+    getShips: function () {
+      return [..._ships];
+    },
+    findTargetedShip: function (coordArr) {
+      return _ships
+        .find((ship) => {
+          ship.containsCoords(coordArr) === true;
+        })
+        .getCoordinates();
     },
   };
 };

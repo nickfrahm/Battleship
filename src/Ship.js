@@ -26,16 +26,24 @@ export const Ship = (length) => {
       return _length;
     },
     getCoordinates: function () {
-      return _coordinates;
+      return [..._coordinates];
     },
-    setCoordinates: function (row, col) {
-      _coordinates = [row, col];
+    addCoordinates: function (row, col) {
+      _coordinates.push([row, col]);
     },
     getOrientation: function () {
       return _orientation;
     },
     setOrientation: function (orientation) {
       _orientation = orientation;
+    },
+    containsCoords: function (coords) {
+      let hash = {};
+      let _coords = this.getCoordinates();
+      for (let i = 0; i < _coords.length; i++) {
+        hash[_coords[i]] = i;
+      }
+      return hash.hasOwnProperty(coords + ',');
     },
   };
 };
