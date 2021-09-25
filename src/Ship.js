@@ -19,8 +19,12 @@ export const Ship = (length) => {
       return false;
     },
     hit: function (position) {
-      _structure[position] = 'x';
-      return [..._structure];
+      if (_structure[position] !== 'x') {
+        _structure[position] = 'x';
+        return [..._structure];
+      } else {
+        return false;
+      }
     },
     getLength: function () {
       return _length;

@@ -21,6 +21,10 @@ describe('Testing the Ship factory function', () => {
     expect(secondShip.hit(0)).toEqual(expect.arrayContaining(expected));
   });
 
+  test('Already hit that location!', () => {
+    expect(newShip.hit(1)).toBe(false);
+  });
+
   test('Testing isSunk function', () => {
     expect(newShip.isSunk()).toBe(true);
     expect(secondShip.isSunk()).toBe(false);
@@ -30,7 +34,9 @@ describe('Testing the Ship factory function', () => {
 describe('Testing the gameboard factory horizontal placement', () => {
   let board1 = Gameboard(10);
   let ship1 = Ship(4);
+  let ship2 = Ship(3);
   ship1.setOrientation('horizontal');
+  ship2.setOrientation('horizontal');
   let expected = [
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
@@ -68,11 +74,21 @@ describe('Testing the gameboard factory horizontal placement', () => {
   test('Expect a failure of placing ship horizontal at 1,7', () => {
     expect(board1.placeShip(ship1, 1, 7, ship1.getOrientation())).toBe(false);
   });
+
+  test('Test overlapping another ship', () => {
+    expect(board1.areCoordsUsed([3, 1], ship2)).toBe(true);
+  });
+
+  test('Test not overlapping another ship', () => {
+    expect(board1.areCoordsUsed([0, 0], ship2)).toBe(false);
+  });
 });
 
 describe('Testing the gameboard factory vertical placement', () => {
   let board1 = Gameboard(10);
   let ship1 = Ship(4);
+  let ship2 = Ship(3);
+  ship2.setOrientation('vertical');
   let expected = [
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '0', '', '', '', '', '', '', ''],
@@ -94,6 +110,14 @@ describe('Testing the gameboard factory vertical placement', () => {
 
   test('Expect a failure of placing ship horizontal at 8,0', () => {
     expect(board1.placeShip(ship1, 8, 0, 'vertical')).toBe(false);
+  });
+
+  test('Test overlapping another ship', () => {
+    expect(board1.areCoordsUsed([0, 2], ship2)).toBe(true);
+  });
+
+  test('Test not overlapping another ship', () => {
+    expect(board1.areCoordsUsed([1, 3], ship2)).toBe(false);
   });
 });
 
@@ -125,72 +149,43 @@ describe('Testing gameboard receiving an attack and affecting related ship', () 
     boardTest.placeShip(test2, 3, 3, test2.getOrientation());
 
     expect(boardTest.findShipByCoords([1, 1])).toEqual(
-      expect.arrayContaining([
-        [1, 1],
-        [2, 1],
-        [3, 1],
-      ])
+      expect.objectContaining(shipTest)
     );
   });
 
-  //   test('Basic Receive attack function--HIT', () => {
-  //     let expected = [
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', 'x', '', '', '', '', '', '', '', ''],
-  //       ['', '1', '', '', '', '', '', '', '', ''],
-  //       ['', '2', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //     ];
+  test('Basic Receive attack function--HIT', () => {
+    let expected = [
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', 'x', '', '', '', '', '', '', '', ''],
+      ['', '1', '', '', '', '', '', '', '', ''],
+      ['', '2', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+    ];
 
-  //     expect(board1.receiveAttack([1, 1])).toEqual(
-  //       expect.arrayContaining(expected)
-  //     );
+    expect(board1.receiveAttack([1, 1])).toEqual(
+      expect.arrayContaining(expected)
+    );
 
-  //     let expected2 = [
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', 'x', '', '', '', '', '', '', '', ''],
-  //       ['', '1', '', '', '', '', '', '', '', ''],
-  //       ['', 'x', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //       ['', '', '', '', '', '', '', '', '', ''],
-  //     ];
+    let expected2 = [
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', 'x', '', '', '', '', '', '', '', ''],
+      ['', '1', '', '', '', '', '', '', '', ''],
+      ['', 'x', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+    ];
 
-  //     expect(board1.receiveAttack([3, 1])).toEqual(
-  //       expect.arrayContaining(expected2)
-  //     );
-  //   });
+    expect(board1.receiveAttack([3, 1])).toEqual(
+      expect.arrayContaining(expected2)
+    );
+  });
 });
-
-let Expected = [
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', 'x', '', '', '', '', '', '', '', ''],
-  ['', '1', '', '', '', '', '', '', '', ''],
-  ['', '2', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-];
-let Received = [
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '0', '', '', '', '', '', '', '', ''],
-  ['', '1', '', '', '', '', '', '', '', ''],
-  ['', '2', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', ''],
-];
