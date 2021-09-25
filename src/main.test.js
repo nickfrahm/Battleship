@@ -115,17 +115,22 @@ describe('Testing gameboard receiving an attack and affecting related ship', () 
   });
 
   test('get targeted ship test', () => {
-    let boardTest, shipTest;
+    let boardTest, shipTest, test2;
     shipTest = Ship(3);
     shipTest.setOrientation('vertical');
+    test2 = Ship(4);
+    test2.setOrientation('horizontal');
     boardTest = Gameboard(10);
     boardTest.placeShip(shipTest, 1, 1, shipTest.getOrientation());
+    boardTest.placeShip(test2, 3, 3, test2.getOrientation());
 
-    expect(boardTest.findTargetedShip([1, 1])).toBe([
-      [1, 1],
-      [2, 1],
-      [3, 1],
-    ]);
+    expect(boardTest.findShipByCoords([1, 1])).toEqual(
+      expect.arrayContaining([
+        [1, 1],
+        [2, 1],
+        [3, 1],
+      ])
+    );
   });
 
   //   test('Basic Receive attack function--HIT', () => {

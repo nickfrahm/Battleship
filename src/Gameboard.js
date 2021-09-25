@@ -46,24 +46,21 @@ export const Gameboard = (length) => {
     receiveAttack: function (coordArr) {
       const row = coordArr[0];
       const col = coordArr[1];
-
-      const attackedShip = _ships.find((ship) => ship.containsCoords(coordArr));
-
-      if (attackedShip) {
-        attackedShip.hit(Number(_board[row][col]));
-        _board[row][col] = 'x';
-      }
-      return this.getGameboard();
     },
     getShips: function () {
       return [..._ships];
     },
-    findTargetedShip: function (coordArr) {
-      return _ships
-        .find((ship) => {
-          ship.containsCoords(coordArr) === true;
-        })
-        .getCoordinates();
+    findShipByCoords: function (coordArr) {
+      let foundShip;
+      let coordString = JSON.stringify(coordArr);
+      _ships.forEach((ship) => {
+        let shipCoords = ship.getCoordinates();
+        shipCoords.forEach((pair) => {
+          if (JSON.stringify(pair) === coordString) {
+            foundShip = ship;
+          }
+        });
+      });
     },
   };
 };
