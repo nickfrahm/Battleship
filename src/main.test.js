@@ -187,5 +187,46 @@ describe('Testing gameboard receiving an attack and affecting related ship', () 
     expect(board1.receiveAttack([3, 1])).toEqual(
       expect.arrayContaining(expected2)
     );
+
+    board1.receiveAttack([0, 1]);
+    expect(board1.receiveAttack([1, 0])).toBe(false);
+
+    //test a same location guess for a hit
+    expect(board1.receiveAttack([1, 1])).toBe(false);
+  });
+});
+
+describe('Figure out if all ships have been sunk on a gameboard', () => {
+  let board;
+
+  beforeEach(() => {
+    board = Gameboard(10);
+    let ship1 = Ship(3);
+    let ship2 = Ship(3);
+    ship1.setOrientation('horizontal');
+    ship2.setOrientation('horizontal');
+    board.placeShip(ship1, 0, 0, ship1.getOrientation());
+    board.placeShip(ship2, 9, 0, ship2.getOrientation());
+  });
+
+  afterEach(() => {
+    board = null;
+  });
+
+  test("Check if all ships have sunk, but they haven't", () => {
+    board.receiveAttack([0, 0]);
+    board.receiveAttack([0, 1]);
+    board.receiveAttack([0, 2]);
+    expect(board.checkAllSunk()).toBe(false);
+  });
+
+  test('Return that all ships have sunk', () => {
+    board.receiveAttack([0, 0]);
+    board.receiveAttack([0, 1]);
+    board.receiveAttack([0, 2]);
+    board.receiveAttack([9, 0]);
+    board.receiveAttack([9, 1]);
+    board.receiveAttack([9, 2]);
+    expect(board.checkAllSunk()).toBe(true);
   });
 });

@@ -48,10 +48,12 @@ export const Gameboard = (length) => {
     receiveAttack: function (coordArr) {
       const row = coordArr[0];
       const col = coordArr[1];
-      if (_board[row][col] !== 'x' || _board[row][col] !== 'o') {
+      if (_board[row][col] !== 'x' && _board[row][col] !== 'o') {
         let targetShip = this.findShipByCoords(coordArr);
         if (targetShip) {
-          if (targetShip.hit(Number(_board[row][col]))) {
+          let targetStructure = targetShip.getStructure();
+          if (targetStructure[Number(_board[row][col])] !== 'x') {
+            targetShip.hit(Number(_board[row][col]));
             _board[row][col] = 'x';
             return this.getGameboard();
           }
@@ -116,6 +118,11 @@ export const Gameboard = (length) => {
         }
       }
       return false;
+    },
+    checkAllSunk: function () {
+      return _ships.every((ship) => {
+        return ship.isSunk() === true;
+      });
     },
   };
 };

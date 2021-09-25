@@ -26,6 +26,9 @@ export const Ship = (length) => {
         return false;
       }
     },
+    getStructure: function () {
+      return [..._structure];
+    },
     getLength: function () {
       return _length;
     },
