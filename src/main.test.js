@@ -1,5 +1,6 @@
 import { Ship } from './Ship.js';
 import { Gameboard } from './Gameboard.js';
+import { Player } from './Player.js';
 
 describe('Testing the Ship factory function', () => {
   let newShip = Ship(3);
@@ -229,4 +230,46 @@ describe('Figure out if all ships have been sunk on a gameboard', () => {
     board.receiveAttack([9, 2]);
     expect(board.checkAllSunk()).toBe(true);
   });
+});
+
+describe('Player Tests', () => {
+  let AI, player, boardAI, boardPlayer;
+  beforeEach(() => {
+    AI = Player();
+    player = Player();
+    boardAI = Gameboard(10);
+    boardPlayer = Gameboard(10);
+    AI.assignBoard(boardAI);
+    player.assignBoard(boardPlayer);
+  });
+
+  afterEach(() => {
+    AI = null;
+    player = null;
+    boardAI = null;
+    boardPlayer = null;
+  });
+
+  test('Assigning boards to player', () => {
+    let expected = [
+      ['0', '', '', '', '', '', '', '', '', ''],
+      ['1', '', '', '', '', '', '', '', '', ''],
+      ['2', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', ''],
+    ];
+    let ship1 = Ship(2);
+    ship1.setOrientation('horizontal');
+    AI.board.placeShip(ship1, 0, 0, ship1.getOrientation());
+    expect(AI.board.getGameboard()).toEqual(expect.arrayContaining(expected));
+  });
+
+  /*test('Random Attack From AI player', () => {
+    //
+  });*/
 });
