@@ -235,12 +235,10 @@ describe('Figure out if all ships have been sunk on a gameboard', () => {
 describe('Player Tests', () => {
   let AI, player, boardAI, boardPlayer;
   beforeEach(() => {
-    AI = Player();
-    player = Player();
     boardAI = Gameboard(10);
     boardPlayer = Gameboard(10);
-    AI.assignBoard(boardAI);
-    player.assignBoard(boardPlayer);
+    AI = Player(boardAI);
+    player = Player(boardPlayer);
   });
 
   afterEach(() => {
@@ -263,8 +261,8 @@ describe('Player Tests', () => {
       ['', '', '', '', '', '', '', '', '', ''],
       ['', '', '', '', '', '', '', '', '', ''],
     ];
-    let ship1 = Ship(2);
-    ship1.setOrientation('horizontal');
+    let ship1 = Ship(3);
+    ship1.setOrientation('vertical');
     AI.board.placeShip(ship1, 0, 0, ship1.getOrientation());
     expect(AI.board.getGameboard()).toEqual(expect.arrayContaining(expected));
   });
