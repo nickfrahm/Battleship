@@ -267,7 +267,75 @@ describe('Player Tests', () => {
     expect(AI.board.getGameboard()).toEqual(expect.arrayContaining(expected));
   });
 
-  /*test('Random Attack From AI player', () => {
+  test('Random Attack From AI player', () => {
     //
-  });*/
+    let ship1 = Ship(3);
+    ship1.setOrientation('vertical');
+    player.board.placeShip(ship1, 0, 0, ship1.getOrientation());
+
+    expect(Array.isArray(player.board.receiveRandomAttack())).toBe(true);
+  });
+
+  test('Random Attack From AI player with more filled board', () => {
+    let expected = [
+      ['0', '', '0', '', '0', '', '0', '', '0', ''],
+      ['1', '', '1', '', '1', '', '1', '', '1', ''],
+      ['2', '', '2', '', '2', '', '', '', '2', ''],
+      ['3', '', '', '', '', '', '', '', '3', ''],
+      ['4', '', '', '', '', '', '', '', '', ''],
+      ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+      ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+      ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+      ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+      ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+    ];
+
+    let ship1 = Ship(3);
+    let ship2 = Ship(3);
+    let ship3 = Ship(2);
+    let ship4 = Ship(4);
+    let ship5 = Ship(5);
+
+    ship1.setOrientation('vertical');
+    ship2.setOrientation('vertical');
+    ship3.setOrientation('vertical');
+    ship4.setOrientation('vertical');
+    ship5.setOrientation('vertical');
+
+    player.board.placeShip(ship1, 0, 2, ship1.getOrientation());
+    player.board.placeShip(ship2, 0, 4, ship1.getOrientation());
+    player.board.placeShip(ship3, 0, 6, ship1.getOrientation());
+    player.board.placeShip(ship4, 0, 8, ship1.getOrientation());
+    player.board.placeShip(ship5, 0, 0, ship1.getOrientation());
+
+    for (let i = 5; i < player.board.getGameboard().length; i++) {
+      for (let j = 0; j < player.board.getGameboard().length; j++) {
+        player.board.receiveAttack([i, j]);
+      }
+    }
+    expect(Array.isArray(player.board.receiveRandomAttack())).toBe(true);
+  });
+
+  test('Random ship placement for AI.', () => {
+    let AIship1 = Ship(2);
+    let AIship2 = Ship(3);
+    let AIship3 = Ship(3);
+    let AIship4 = Ship(4);
+    let AIship5 = Ship(5);
+
+    let randomBoard = AI.board.placeShipsRandomly(
+      AIship1,
+      AIship2,
+      AIship3,
+      AIship4,
+      AIship5
+    );
+    expect(Array.isArray(randomBoard)).toBe(true);
+  });
+
+  test('Make sure turn tracking works', () => {
+    expect(player.getTurn()).toBe(false);
+    player.toggleTurn();
+    expect(player.getTurn()).toBe(true);
+  });
 });

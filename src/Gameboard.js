@@ -124,5 +124,32 @@ export const Gameboard = (length) => {
         return ship.isSunk() === true;
       });
     },
+    receiveRandomAttack() {
+      let validCoords = false;
+      while (validCoords === false) {
+        let randX = Math.floor(Math.random() * _board.length);
+        let randY = Math.floor(Math.random() * _board.length);
+        if (_board[randX][randY] !== 'x' || 'o') {
+          return [randX, randY];
+        }
+      }
+    },
+    placeShipsRandomly: function (ship1, ship2, ship3, ship4, ship5) {
+      [ship1, ship2, ship3, ship4, ship5].forEach((ship) => {
+        let randOrientation = Math.floor(Math.random() * 2);
+        ship.setOrientation(randOrientation === 1 ? 'vertical' : 'horizontal');
+        let validCoords = false;
+        while (validCoords === false) {
+          let randX = Math.floor(Math.random() * _board.length);
+          let randY = Math.floor(Math.random() * _board.length);
+
+          if (this.placeShip(ship, randX, randY, ship.getOrientation())) {
+            validCoords = true;
+          }
+        }
+      });
+
+      return this.getGameboard();
+    },
   };
 };
