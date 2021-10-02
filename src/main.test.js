@@ -1,6 +1,7 @@
 import { Ship } from './Ship.js';
 import { Gameboard } from './Gameboard.js';
 import { Player } from './Player.js';
+import { Game } from './Game.js';
 
 describe('Testing the Ship factory function', () => {
   let newShip = Ship(3);
@@ -337,5 +338,13 @@ describe('Player Tests', () => {
     expect(player.getTurn()).toBe(false);
     player.toggleTurn();
     expect(player.getTurn()).toBe(true);
+  });
+});
+
+describe('Game logic tests', () => {
+  test('Start a new game', () => {
+    let newGame = Game();
+    let expected = [Player, Player];
+    expect(newGame.startNewGame()).toBe(expected);
   });
 });
