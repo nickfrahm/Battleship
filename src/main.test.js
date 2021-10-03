@@ -342,9 +342,14 @@ describe('Player Tests', () => {
 });
 
 describe('Game logic tests', () => {
+  const mockPlayer = jest.fn();
+  mockPlayer.mockReturnValue(Player(Gameboard(10)));
+
   test('Start a new game', () => {
     let newGame = Game();
-    let expected = [Player, Player];
-    expect(newGame.startNewGame()).toBe(expected);
+    let expected = [mockPlayer(), mockPlayer()];
+    expect(newGame.startNewGame().toString()).toStrictEqual(
+      expected.toString()
+    );
   });
 });
