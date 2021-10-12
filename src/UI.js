@@ -1,5 +1,16 @@
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
+
 export const initEventListeners = () => {
   //if needed
+};
+
+export const placeShipsPage = () => {
+  removeAllChildNodes(document.querySelector('main'));
+  createBoard('Player1', 10, document.querySelector('main'));
 };
 
 export const createBoard = (name, length, parent) => {
