@@ -1,3 +1,5 @@
+let len = 2;
+
 function removeAllChildNodes(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
@@ -5,12 +7,12 @@ function removeAllChildNodes(parent) {
 }
 
 export const initEventListeners = () => {
-  //if needed
+  //
 };
 
 export const placeShipsPage = () => {
   removeAllChildNodes(document.querySelector('main'));
-  createBoard('Player1', 10, document.querySelector('main'));
+  createBoard('Player', 10, document.querySelector('main'));
 };
 
 export const createBoard = (name, length, parent) => {
@@ -24,6 +26,8 @@ export const createBoard = (name, length, parent) => {
       let col = j;
       let boardTile = document.createElement('p');
       boardTile.className = 'tile';
+      boardTile.addEventListener('mouseover', showShipPlacement);
+      boardTile.len = len;
       boardTile.id = row.toString() + col.toString();
       boardContainer.appendChild(boardTile);
     }
@@ -32,11 +36,11 @@ export const createBoard = (name, length, parent) => {
   parent.appendChild(boardContainer);
 };
 
-export const showShipPlacement = (len) => {
+export const showShipPlacement = (e) => {
   let shipUI = document.createElement('div');
   shipUI.className('ship-tile-container');
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < e.currentTarget.len; i++) {
     let shipTile = document.createElement('p');
     shipTile.classList.add('tile', 'ship-tile');
     shipUI.appendChild(shipTile);

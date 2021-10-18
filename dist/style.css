@@ -1,0 +1,30 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.board-container {
+    width: 200px;
+    line-height: 0;
+}
+
+.tile {
+    display: inline-block;
+    height: 20px;
+    width: 10%;
+    border: 1px solid black;
+    position: relative;
+}
+
+.tile:hover {
+    cursor: pointer;
+}
+
+.ship-tile {
+    z-index: 100;
+    position: absolute;
+    color: tomato;
+}
