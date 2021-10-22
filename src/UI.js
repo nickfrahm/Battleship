@@ -1,4 +1,4 @@
-let len = 2;
+let orientation = 'horizontal';
 
 function removeAllChildNodes(parent) {
   while (parent.firstChild) {
@@ -7,18 +7,24 @@ function removeAllChildNodes(parent) {
 }
 
 export const initEventListeners = () => {
-  //
+  // if needed?
 };
 
 export const placeShipsPage = () => {
   removeAllChildNodes(document.querySelector('main'));
+  let banner = document.createElement('h2');
+  banner.id = 'banner';
+  banner.textContent = 'Place your ships';
+  document.querySelector('.wrapper').appendChild(banner);
   createBoard('Player', 10, document.querySelector('main'));
+  document.querySelector('.wrapper').appendChild(vertHorizBtn());
 };
 
 export const createBoard = (name, length, parent) => {
   let boardContainer = document.createElement('div');
   boardContainer.classList.add('board-container');
   boardContainer.id = `${name}-board`;
+  boardContainer.addEventListener('mouseover', showShipPlacement);
 
   for (let i = 0; i < length; i++) {
     for (let j = 0; j < length; j++) {
@@ -26,8 +32,6 @@ export const createBoard = (name, length, parent) => {
       let col = j;
       let boardTile = document.createElement('p');
       boardTile.className = 'tile';
-      boardTile.addEventListener('mouseover', showShipPlacement);
-      boardTile.len = len;
       boardTile.id = row.toString() + col.toString();
       boardContainer.appendChild(boardTile);
     }
@@ -37,14 +41,20 @@ export const createBoard = (name, length, parent) => {
 };
 
 export const showShipPlacement = (e) => {
-  let shipUI = document.createElement('div');
-  shipUI.className('ship-tile-container');
+  //
+};
 
-  for (let i = 0; i < e.currentTarget.len; i++) {
-    let shipTile = document.createElement('p');
-    shipTile.classList.add('tile', 'ship-tile');
-    shipUI.appendChild(shipTile);
-  }
+export const vertHorizBtn = () => {
+  const btn = document.createElement('div');
+  btn.className = 'vertHorizBtn';
+  btn.id = 'vertHorizBtn';
+  btn.textContent = 'Horizontal';
 
-  return shipUI;
+  //to do: add functionality
+
+  return btn;
+};
+
+export const changeOrientation = () => {
+  //
 };

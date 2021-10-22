@@ -1,4 +1,4 @@
-export const Player = (gameBoard) => {
+export const Player = (name, gameBoard) => {
   let _turn = false;
   return {
     board: gameBoard,
@@ -8,5 +8,6 @@ export const Player = (gameBoard) => {
     toggleTurn: function () {
       _turn = !_turn;
     },
+    name: name,
   };
 };

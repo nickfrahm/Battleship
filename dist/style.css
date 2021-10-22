@@ -6,14 +6,44 @@
     padding: 0;
 }
 
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-bar {
+    padding: 15px;
+    font-size: 24px;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px
+}
+
+.vertHorizBtn {
+    border: 2px solid black;
+    border-radius: 3px;
+    padding: 10px;
+    line-height: 0;
+}
+
+.vertHorizBtn:hover {
+    cursor: pointer;
+}
+
 .board-container {
-    width: 200px;
+    width: 250px;
     line-height: 0;
 }
 
 .tile {
     display: inline-block;
-    height: 20px;
+    height: 25px;
     width: 10%;
     border: 1px solid black;
     position: relative;
@@ -27,4 +57,8 @@
     z-index: 100;
     position: absolute;
     color: tomato;
+}
+
+.hide {
+    display: none;
 }
