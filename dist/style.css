@@ -53,6 +53,18 @@
     cursor: pointer;
 }
 
+.tile-placed {
+    display: inline-block;
+    height: 25px;
+    width: 10%;
+    border: 1px solid black;
+    position: relative;
+}
+
+.tile-placed:hover {
+    cursor: pointer;
+}
+
 .ship-tile {
     z-index: 100;
     position: absolute;
