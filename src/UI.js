@@ -1,60 +1,139 @@
-let orientation = 'horizontal';
+export const UI = (size) => {
+  let orientation = 'horizontal';
+  let shipsToPlace = [2, 3, 3, 4, 5];
 
-function removeAllChildNodes(parent) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  }
-}
-
-export const initEventListeners = () => {
-  // if needed?
-};
-
-export const placeShipsPage = () => {
-  removeAllChildNodes(document.querySelector('main'));
-  let banner = document.createElement('h2');
-  banner.id = 'banner';
-  banner.textContent = 'Place your ships';
-  document.querySelector('.wrapper').appendChild(banner);
-  createBoard('Player', 10, document.querySelector('main'));
-  document.querySelector('.wrapper').appendChild(vertHorizBtn());
-};
-
-export const createBoard = (name, length, parent) => {
-  let boardContainer = document.createElement('div');
-  boardContainer.classList.add('board-container');
-  boardContainer.id = `${name}-board`;
-  boardContainer.addEventListener('mouseover', showShipPlacement);
-
-  for (let i = 0; i < length; i++) {
-    for (let j = 0; j < length; j++) {
-      let row = i;
-      let col = j;
-      let boardTile = document.createElement('p');
-      boardTile.className = 'tile';
-      boardTile.id = row.toString() + col.toString();
-      boardContainer.appendChild(boardTile);
+  const removeAllChildNodes = (parent) => {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
     }
-  }
+  };
 
-  parent.appendChild(boardContainer);
-};
+  const initEventListeners = () => {
+    // if needed?
+  };
 
-export const showShipPlacement = (e) => {
-  //
-};
+  const placeShipsPage = () => {
+    removeAllChildNodes(document.querySelector('main'));
+    let banner = document.createElement('h2');
+    banner.id = 'banner';
+    banner.textContent = 'Place your ships';
+    document.querySelector('.wrapper').appendChild(banner);
+    createBoard('Player', size, document.querySelector('main'));
+    document.querySelector('.wrapper').appendChild(vertHorizBtn());
+  };
 
-export const vertHorizBtn = () => {
-  const btn = document.createElement('div');
-  btn.className = 'vertHorizBtn';
-  btn.id = 'vertHorizBtn';
-  btn.textContent = 'Horizontal';
+  const createBoard = (name, length, parent) => {
+    let boardContainer = document.createElement('div');
+    boardContainer.classList.add('board-container');
+    boardContainer.id = `${name}-board`;
+    boardContainer.addEventListener('mouseover', showShipPlacement);
+    boardContainer.addEventListener('mouseout', hideShipPlacement);
 
-  //to do: add functionality
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < length; j++) {
+        let row = i;
+        let col = j;
+        let boardTile = document.createElement('p');
+        boardTile.className = 'tile';
+        boardTile.id = row.toString() + col.toString();
+        boardContainer.appendChild(boardTile);
+      }
+    }
 
-  return btn;
-};
+    parent.appendChild(boardContainer);
+  };
 
-export const changeOrientation = () => {
-  //
+  const showShipPlacement = (e) => {
+    if (e.target.className === 'tile') {
+      let row = parseInt(e.target.id[0]);
+      let col = parseInt(e.target.id[1]);
+      let len = shipsToPlace[0];
+      if (len > 0 && typeof len === 'number') {
+        if (getOrientation() === 'horizontal') {
+          if (col + len <= size) {
+            for (let i = col; i < col + len; i++) {
+              document.getElementById(`${row}${i}`).style.backgroundColor =
+                '#81c784';
+            }
+          }
+        } else {
+          if (row + len <= size) {
+            for (let i = row; i < row + len; i++) {
+              document.getElementById(`${i}${col}`).style.backgroundColor =
+                '#81c784';
+            }
+          }
+        }
+      }
+      //console.log(`row: ${row}     col: ${col}`);
+    }
+  };
+
+  const hideShipPlacement = (e) => {
+    if (e.target.className === 'tile') {
+      let row = parseInt(e.target.id[0]);
+      let col = parseInt(e.target.id[1]);
+      let len = shipsToPlace[0];
+      if (len > 0 && typeof len === 'number') {
+        if (getOrientation() === 'horizontal') {
+          if (col + len <= size) {
+            for (let i = col; i < col + len; i++) {
+              document.getElementById(`${row}${i}`).style.backgroundColor =
+                '#ffffff';
+            }
+          }
+        } else {
+          if (row + len <= size) {
+            for (let i = row; i < row + len; i++) {
+              document.getElementById(`${i}${col}`).style.backgroundColor =
+                '#ffffff';
+            }
+          }
+        }
+      }
+      //console.log(`row: ${row}     col: ${col}`);
+    }
+  };
+
+  const vertHorizBtn = () => {
+    const btn = document.createElement('div');
+    btn.className = 'vertHorizBtn';
+    btn.id = 'vertHorizBtn';
+    btn.textContent = 'Horizontal';
+
+    btn.addEventListener('click', changeOrientation);
+
+    return btn;
+  };
+
+  const changeOrientation = () => {
+    if (orientation === 'horizontal') {
+      orientation = 'vertical';
+    } else {
+      orientation = 'horizontal';
+    }
+    document.querySelector('.vertHorizBtn').textContent = toTitleCase(
+      getOrientation()
+    );
+  };
+
+  const toTitleCase = (str) => {
+    let len = str.length;
+    let first = str[0].toUpperCase();
+    let rest = '';
+    for (let i = 1; i < len; i++) {
+      rest += str[i];
+    }
+    return first + rest;
+  };
+  const getOrientation = () => orientation;
+
+  return {
+    placeShipsPage: placeShipsPage,
+    createBoard: createBoard,
+    initEventListeners: initEventListeners,
+    showShipPlacement: showShipPlacement,
+    vertHorizBtn: vertHorizBtn,
+    getOrientation: getOrientation,
+  };
 };
