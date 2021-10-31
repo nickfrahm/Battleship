@@ -47,7 +47,7 @@ export const UI = (size) => {
   };
 
   const showShipPlacement = (e) => {
-    if (e.target.className === 'tile' && e.target.className !== 'tile-placed') {
+    if (e.target.className === 'tile' && shipValid(e.target.id)) {
       let row = parseInt(e.target.id[0]);
       let col = parseInt(e.target.id[1]);
       let len = shipsToPlace[0];
@@ -152,17 +152,19 @@ export const UI = (size) => {
         if (row + len <= size) {
           for (let i = row; i < row + len; i++) {
             let currTile = document.getElementById(`${i}${col}`);
-
-            currTile.className = 'tile-placed';
-            currTile.style.backgroundColor = '#81c784';
+            if (currTile.className === 'tile-placed') {
+              return false;
+            }
           }
+          return true;
         }
+        return false;
       }
     }
   };
 
   const placeShipUI = (e) => {
-    if (e.target.className === 'tile') {
+    if (e.target.className === 'tile' && shipValid(e.target.id)) {
       let row = parseInt(e.target.id[0]);
       let col = parseInt(e.target.id[1]);
       let len = shipsToPlace[0];
@@ -173,7 +175,6 @@ export const UI = (size) => {
               let currTile = document.getElementById(`${row}${i}`);
 
               currTile.className = 'tile-placed';
-              currTile.style.backgroundColor = '#81c784';
             }
           }
         } else {
@@ -182,10 +183,13 @@ export const UI = (size) => {
               let currTile = document.getElementById(`${i}${col}`);
 
               currTile.className = 'tile-placed';
-              currTile.style.backgroundColor = '#81c784';
             }
           }
         }
+      }
+      shipsToPlace.shift();
+      if (shipsToPlace.length <= 0) {
+        //sync UI and game logic
       }
     }
   };
