@@ -1,6 +1,8 @@
 export const UI = (size) => {
   let orientation = 'horizontal';
   let shipsToPlace = [2, 3, 3, 4, 5];
+  let placedShips = [];
+  let newGame;
 
   const removeAllChildNodes = (parent) => {
     while (parent.firstChild) {
@@ -12,7 +14,7 @@ export const UI = (size) => {
     // if needed?
   };
 
-  const placeShipsPage = () => {
+  const placeShipsPage = (game) => {
     removeAllChildNodes(document.querySelector('main'));
     let banner = document.createElement('h2');
     banner.id = 'banner';
@@ -20,6 +22,7 @@ export const UI = (size) => {
     document.querySelector('.wrapper').appendChild(banner);
     createBoard('Player', size, document.querySelector('main'), true);
     document.querySelector('.wrapper').appendChild(vertHorizBtn());
+    newGame = game;
   };
 
   const createBoard = (name, length, parent, placement = false) => {
@@ -171,6 +174,12 @@ export const UI = (size) => {
       if (len > 0 && typeof len === 'number') {
         if (getOrientation() === 'horizontal') {
           if (col + len <= size) {
+            placedShips.push({
+              row: row,
+              col: col,
+              ori: getOrientation(),
+              len: len,
+            });
             for (let i = col; i < col + len; i++) {
               let currTile = document.getElementById(`${row}${i}`);
 
@@ -179,6 +188,12 @@ export const UI = (size) => {
           }
         } else {
           if (row + len <= size) {
+            placedShips.push({
+              row: row,
+              col: col,
+              ori: getOrientation(),
+              len: len,
+            });
             for (let i = row; i < row + len; i++) {
               let currTile = document.getElementById(`${i}${col}`);
 
@@ -188,10 +203,22 @@ export const UI = (size) => {
         }
       }
       shipsToPlace.shift();
+
       if (shipsToPlace.length <= 0) {
-        //sync UI and game logic
+        newGame.startNewGame(placedShips);
+        removeAllChildNodes(document.querySelector('main'));
+        hideShowBtn();
+        gameScreens();
       }
     }
+  };
+
+  const hideShowBtn = () => {
+    document.querySelector('#vertHorizBtn').classList.toggle('hide');
+  };
+
+  const gameScreens = () => {
+    //
   };
 
   return {

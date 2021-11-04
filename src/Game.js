@@ -7,17 +7,28 @@ export const Game = () => {
   function initShips() {
     return [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
   }
+
+  const startNewGame = (shipPlacements) => {
+    let player = Player('Player', Gameboard(10));
+    let AI = Player('AI', Gameboard(10));
+
+    //todo: change player to allow picking own coords
+    AI.board.placeShipsRandomly(...initShips());
+    //player.board.placeShipsRandomly(...initShips());
+    shipPlacements.forEach((shipInfo) => {
+      player.board.placeShip(
+        Ship(shipInfo.len),
+        shipInfo.row,
+        shipInfo.col,
+        shipInfo.ori
+      );
+    });
+
+    _players = [player, AI];
+    return [..._players];
+  };
+
   return {
-    startNewGame: function () {
-      let player = Player(Gameboard(10));
-      let AI = Player(Gameboard(10));
-
-      //todo: change player to allow picking own coords
-      AI.board.placeShipsRandomly(...initShips());
-      player.board.placeShipsRandomly(...initShips());
-
-      _players = [player, AI];
-      return [..._players];
-    },
+    startNewGame: startNewGame,
   };
 };
