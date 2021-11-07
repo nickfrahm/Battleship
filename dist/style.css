@@ -38,6 +38,7 @@
 
 .board-container {
     width: 250px;
+    margin: 15px;
     line-height: 0;
 }
 

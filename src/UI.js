@@ -209,6 +209,7 @@ export const UI = (size) => {
         removeAllChildNodes(document.querySelector('main'));
         hideShowBtn();
         gameScreens();
+        changeBanner('May the best guesser win.');
       }
     }
   };
@@ -217,8 +218,48 @@ export const UI = (size) => {
     document.querySelector('#vertHorizBtn').classList.toggle('hide');
   };
 
+  const changeBanner = (message) => {
+    document.querySelector('#banner').textContent = message;
+  };
+
   const gameScreens = () => {
-    //
+    createBoard('Player', size, document.querySelector('main'), false);
+    createBoard('AI', size, document.querySelector('main'), false);
+    showPlayerShips(newGame);
+    document.getElementById('#AI-board').addEventListener('click', userPlay);
+  };
+
+  const showPlayerShips = (newGame) => {
+    let playerBoard = newGame.getPlayers().player.board.getGameboard();
+    let coords = [];
+    for (let i = 0; i < playerBoard.length; i++) {
+      for (let j = 0; j < playerBoard.length; j++) {
+        if (
+          parseInt(playerBoard[i][j]) >= 0 &&
+          parseInt(playerBoard[i][j]) < 5
+        ) {
+          coords.push(`${i}${j}`);
+        }
+      }
+    }
+    document.querySelectorAll('#Player-board .tile').forEach((tile) => {
+      for (let i = 0; i < coords.length; i++) {
+        if (coords[i] === tile.id) {
+          tile.style.backgroundColor = '#81c784';
+        }
+      }
+    });
+  };
+
+  const userPlay = (e) => {
+    if (e.target.className === 'tile') {
+      //get the target id
+      //break id into coord arr [row,col]
+      //if newGame.getPlayers().AI.board.receiveAttack(arr) is true
+      //   color square red
+      //else if false and
+      //   color square blue
+    }
   };
 
   return {

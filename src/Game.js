@@ -24,11 +24,14 @@ export const Game = () => {
       );
     });
 
-    _players = [player, AI];
-    return [..._players];
+    _players = { player, AI };
+    return { ..._players };
   };
 
   return {
     startNewGame: startNewGame,
+    getPlayers: function () {
+      return { ..._players };
+    },
   };
 };
