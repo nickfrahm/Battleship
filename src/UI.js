@@ -225,11 +225,11 @@ export const UI = (size) => {
   const gameScreens = () => {
     createBoard('Player', size, document.querySelector('main'), false);
     createBoard('AI', size, document.querySelector('main'), false);
-    showPlayerShips(newGame);
-    document.getElementById('#AI-board').addEventListener('click', userPlay);
+    showPlayerShips();
+    document.querySelector('#AI-board').addEventListener('click', userPlay);
   };
 
-  const showPlayerShips = (newGame) => {
+  const showPlayerShips = () => {
     let playerBoard = newGame.getPlayers().player.board.getGameboard();
     let coords = [];
     for (let i = 0; i < playerBoard.length; i++) {
@@ -252,13 +252,18 @@ export const UI = (size) => {
   };
 
   const userPlay = (e) => {
-    if (e.target.className === 'tile') {
-      //get the target id
-      //break id into coord arr [row,col]
-      //if newGame.getPlayers().AI.board.receiveAttack(arr) is true
-      //   color square red
-      //else if false and
-      //   color square blue
+    if (
+      e.target.classList.contains('tile') &&
+      e.target.parentNode.id === 'AI-board' &&
+      !e.target.classList.contains('guessed')
+    ) {
+      let coordArr = [e.target.id[0], e.target.id[1]];
+      if (newGame.getPlayers().AI.board.receiveAttack(coordArr)) {
+        e.target.style.backgroundColor = 'tomato';
+      } else {
+        e.target.style.backgroundColor = 'dodgerblue';
+      }
+      e.target.classList.add('guessed');
     }
   };
 

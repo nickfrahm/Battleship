@@ -14,6 +14,20 @@ export const Gameboard = (length) => {
   let _board = _initBoard(length);
   let _ships = [];
 
+  function findShipByCoords(coordArr) {
+    let foundShip;
+    let coordString = JSON.stringify(coordArr);
+    _ships.forEach((ship) => {
+      let shipCoords = ship.getCoordinates();
+      shipCoords.forEach((pair) => {
+        if (JSON.stringify(pair) === coordString) {
+          foundShip = ship;
+        }
+      });
+    });
+    return foundShip;
+  }
+
   return {
     getGameboard: function () {
       return [..._board];
@@ -49,7 +63,7 @@ export const Gameboard = (length) => {
       const row = coordArr[0];
       const col = coordArr[1];
       if (_board[row][col] !== 'x' && _board[row][col] !== 'o') {
-        let targetShip = this.findShipByCoords(coordArr);
+        let targetShip = findShipByCoords(coordArr);
         if (targetShip) {
           let targetStructure = targetShip.getStructure();
           if (targetStructure[Number(_board[row][col])] !== 'x') {
@@ -82,19 +96,7 @@ export const Gameboard = (length) => {
     getShips: function () {
       return [..._ships];
     },
-    findShipByCoords: function (coordArr) {
-      let foundShip;
-      let coordString = JSON.stringify(coordArr);
-      _ships.forEach((ship) => {
-        let shipCoords = ship.getCoordinates();
-        shipCoords.forEach((pair) => {
-          if (JSON.stringify(pair) === coordString) {
-            foundShip = ship;
-          }
-        });
-      });
-      return foundShip;
-    },
+    findShipByCoords: findShipByCoords,
     areCoordsUsed: function (coordArr, ship) {
       let board = this.getGameboard();
       const row = coordArr[0];
