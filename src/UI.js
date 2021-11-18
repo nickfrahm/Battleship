@@ -257,13 +257,40 @@ export const UI = (size) => {
       e.target.parentNode.id === 'AI-board' &&
       !e.target.classList.contains('guessed')
     ) {
-      let coordArr = [e.target.id[0], e.target.id[1]];
-      if (newGame.getPlayers().AI.board.receiveAttack(coordArr)) {
+      let playerBoard = newGame.getPlayers().player.board;
+      let AIboard = newGame.getPlayers().AI.board;
+      let coordArr = [Number(e.target.id[0]), Number(e.target.id[1])];
+
+      if (AIboard.receiveAttack(coordArr)) {
         e.target.style.backgroundColor = 'tomato';
+        handleTurn(AIboard, playerBoard);
       } else {
         e.target.style.backgroundColor = 'dodgerblue';
+        handleTurn(AIboard, playerBoard);
       }
       e.target.classList.add('guessed');
+    }
+  };
+
+  const handleTurn = (AIboard, playerBoard) => {
+    if (AIboard.checkAllSunk()) {
+      document.alert('Congratulations, you won!');
+      //set up new game with ship placements
+      //function for this also
+    } else {
+      let randomAttackCoords = playerBoard.receiveRandomAttack();
+      if (playerBoard.receiveAttack(randomAttackCoords)) {
+        let targetTile = document
+          .getElementById('Player-board')
+          .querySelector(`#${randomAttackCoords[0]}${randomAttackCoords[1]}`);
+        targetTile.style.backgroundColor = 'tomato';
+        if (playerBoard.checkAllSunk()) {
+          document.alert(
+            "Well that's embarrassing, you got beat by a computer with no guessing algorithm."
+          );
+          //add function to reset the game here
+        }
+      }
     }
   };
 
