@@ -279,10 +279,13 @@ export const UI = (size) => {
       //function for this also
     } else {
       let randomAttackCoords = playerBoard.receiveRandomAttack();
+      let tiles = Array.from(document.querySelectorAll('#Player-board .tile'));
+      console.log(tiles);
+      let targetTile = tiles.find((el) => {
+        el.id;
+      });
+      console.log(targetTile);
       if (playerBoard.receiveAttack(randomAttackCoords)) {
-        let targetTile = document
-          .getElementById('Player-board')
-          .querySelector(`#${randomAttackCoords[0]}${randomAttackCoords[1]}`);
         targetTile.style.backgroundColor = 'tomato';
         if (playerBoard.checkAllSunk()) {
           document.alert(
@@ -290,6 +293,8 @@ export const UI = (size) => {
           );
           //add function to reset the game here
         }
+      } else {
+        targetTile.style.backgroundColor = 'dodgerblue';
       }
     }
   };
