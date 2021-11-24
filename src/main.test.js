@@ -238,8 +238,8 @@ describe('Player Tests', () => {
   beforeEach(() => {
     boardAI = Gameboard(10);
     boardPlayer = Gameboard(10);
-    AI = Player(boardAI);
-    player = Player(boardPlayer);
+    AI = Player('AI', boardAI);
+    player = Player('Player', boardPlayer);
   });
 
   afterEach(() => {
@@ -338,18 +338,5 @@ describe('Player Tests', () => {
     expect(player.getTurn()).toBe(false);
     player.toggleTurn();
     expect(player.getTurn()).toBe(true);
-  });
-});
-
-describe('Game logic tests', () => {
-  const mockPlayer = jest.fn();
-  mockPlayer.mockReturnValue(Player(Gameboard(10)));
-
-  test('Start a new game', () => {
-    let newGame = Game();
-    let expected = [mockPlayer(), mockPlayer()];
-    expect(newGame.startNewGame().toString()).toStrictEqual(
-      expected.toString()
-    );
   });
 });

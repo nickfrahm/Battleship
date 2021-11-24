@@ -37,7 +37,7 @@ export const Gameboard = (length) => {
         let shipLength = ship.getLength();
         let boardLength = _board[row].length;
         if (orientation === 'horizontal') {
-          if (col + shipLength < boardLength) {
+          if (col + shipLength <= boardLength) {
             for (let i = 0; i < shipLength; i++) {
               _board[row][col + i] = i.toString();
               ship.addCoordinates(row, col + i);
@@ -47,7 +47,7 @@ export const Gameboard = (length) => {
           }
           return false;
         } else if (orientation === 'vertical') {
-          if (row + shipLength < boardLength) {
+          if (row + shipLength <= boardLength) {
             for (let i = 0; i < shipLength; i++) {
               _board[row + i][col] = i.toString();
               ship.addCoordinates(row + i, col);
