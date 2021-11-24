@@ -23,7 +23,7 @@ export const Game = () => {
         shipInfo.ori
       );
     });
-
+    console.log(player.board.getGameboard(), AI.board.getGameboard());
     _players = { player, AI };
     return { ..._players };
   };

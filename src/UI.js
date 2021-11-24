@@ -280,10 +280,10 @@ export const UI = (size) => {
     } else {
       let randomAttackCoords = playerBoard.receiveRandomAttack();
       let tiles = Array.from(document.querySelectorAll('#Player-board .tile'));
-      console.log(tiles);
+      //console.log(tiles);
       let targetTile =
         tiles[Number(`${randomAttackCoords[0]}${randomAttackCoords[1]}`)];
-      console.log(targetTile);
+      //console.log(targetTile);
       if (playerBoard.receiveAttack(randomAttackCoords)) {
         targetTile.style.backgroundColor = 'tomato';
         if (playerBoard.checkAllSunk()) {
