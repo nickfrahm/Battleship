@@ -131,7 +131,7 @@ export const Gameboard = (length) => {
       while (validCoords === false) {
         let randX = Math.floor(Math.random() * _board.length);
         let randY = Math.floor(Math.random() * _board.length);
-        if (_board[randX][randY] !== 'x' || 'o') {
+        if (_board[randX][randY] !== 'x' || _board[randX][randY] !== 'o') {
           return [randX, randY];
         }
       }
