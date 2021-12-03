@@ -1,3 +1,5 @@
+import { Game } from './Game';
+
 export const UI = (size) => {
   let orientation = 'horizontal';
   let shipsToPlace = [2, 3, 3, 4, 5];
@@ -10,18 +12,16 @@ export const UI = (size) => {
     }
   };
 
-  const initEventListeners = () => {
-    // if needed?
-  };
-
   const placeShipsPage = (game) => {
     removeAllChildNodes(document.querySelector('main'));
-    let banner = document.createElement('h2');
-    banner.id = 'banner';
-    banner.textContent = 'Place your ships';
-    document.querySelector('.wrapper').appendChild(banner);
+    if (!document.getElementById('banner')) {
+      let banner = document.createElement('h2');
+      banner.id = 'banner';
+      banner.textContent = 'Place your ships';
+      document.querySelector('.wrapper').appendChild(banner);
+      document.querySelector('.wrapper').appendChild(vertHorizBtn());
+    }
     createBoard('Player', size, document.querySelector('main'), true);
-    document.querySelector('.wrapper').appendChild(vertHorizBtn());
     newGame = game;
   };
 
@@ -275,8 +275,7 @@ export const UI = (size) => {
   const handleTurn = (AIboard, playerBoard) => {
     if (AIboard.checkAllSunk()) {
       alert('Congratulations, you won!');
-      //set up new game with ship placements
-      //function for this also
+      resetGame();
     } else {
       let randomAttackCoords = playerBoard.receiveRandomAttack();
       let tiles = Array.from(document.querySelectorAll('#Player-board .tile'));
@@ -290,7 +289,7 @@ export const UI = (size) => {
           alert(
             "Well that's embarrassing, you got beat by a computer with no guessing algorithm."
           );
-          //add function to reset the game here
+          resetGame();
         }
       } else {
         targetTile.style.backgroundColor = 'dodgerblue';
@@ -298,10 +297,19 @@ export const UI = (size) => {
     }
   };
 
+  const resetGame = () => {
+    changeBanner('Place Your Ships');
+    newGame = Game();
+    orientation = 'horizontal';
+    shipsToPlace = [2, 3, 3, 4, 5];
+    placedShips = [];
+    hideShowBtn();
+    placeShipsPage(newGame);
+  };
+
   return {
     placeShipsPage: placeShipsPage,
     createBoard: createBoard,
-    initEventListeners: initEventListeners,
     showShipPlacement: showShipPlacement,
     vertHorizBtn: vertHorizBtn,
     getOrientation: getOrientation,
